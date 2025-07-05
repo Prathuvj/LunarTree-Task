@@ -1,5 +1,6 @@
 import uuid
 from flask import Flask, request, jsonify
+from github_username import extract_company_github_username
 
 app = Flask(__name__)
 
@@ -20,7 +21,17 @@ def upload_file():
 
     if file and allowed_file(file.filename):
         job_id = str(uuid.uuid4())
-        return jsonify({"job_id": job_id}), 200
+        try:
+            username = extract_company_github_username(file.stream)
+            return jsonify({
+                "job_id": job_id,
+                "github_username": username
+            }), 200
+        except Exception as e:
+            return jsonify({
+                "job_id": job_id,
+                "error": str(e)
+            }), 500
     else:
         return jsonify({"error": "Only PDF files are allowed"}), 400
 
