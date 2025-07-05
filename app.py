@@ -1,6 +1,7 @@
 import uuid
 from flask import Flask, request, jsonify
 from github_username import extract_company_github_username
+from git_org_data import get_org_public_members
 
 app = Flask(__name__)
 
@@ -23,9 +24,13 @@ def upload_file():
         job_id = str(uuid.uuid4())
         try:
             username = extract_company_github_username(file.stream)
+            public_members = get_org_public_members(username)
+            member_usernames = [member["login"] for member in public_members]
+
             return jsonify({
                 "job_id": job_id,
-                "github_username": username
+                "github_username": username,
+                "public_members": member_usernames
             }), 200
         except Exception as e:
             return jsonify({
