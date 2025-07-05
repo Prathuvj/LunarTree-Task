@@ -1,0 +1,6 @@
+flask
+google-genai
+pdfplumber
+requests
+streamlit
+python-dotenv
