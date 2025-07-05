@@ -1,6 +1,5 @@
 import uuid
 import threading
-import webbrowser
 import subprocess
 from flask import Flask, request, jsonify
 from github_username import extract_company_github_username
@@ -68,7 +67,6 @@ def run_flask():
 
 def run_streamlit():
     subprocess.Popen(["streamlit", "run", "ui.py"])
-    webbrowser.open("http://localhost:8501")
 
 if __name__ == '__main__':
     init_db()

@@ -4,8 +4,8 @@ import json
 
 API_URL = "http://localhost:5000/upload"
 
-st.set_page_config(page_title="GitHub Org Extractor", layout="centered")
-st.title("📄 GitHub Organization Extractor from PDF")
+st.set_page_config(page_title="LunarTree Task", layout="centered")
+st.title("LunarTree Task")
 
 uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"])
 
@@ -19,7 +19,7 @@ if uploaded_file:
             result = response.json()
 
             if response.status_code == 200:
-                st.success("✅ Extraction successful!")
+                st.success("Extraction successful!")
 
                 st.write(f"**Job ID:** `{result['job_id']}`")
                 st.write(f"**GitHub Username:** `{result['github_username']}`")
@@ -29,7 +29,7 @@ if uploaded_file:
                 st.code("\n".join(members) if members else "None")
 
             else:
-                st.error(f"❌ Error: {result.get('error', 'Unknown error')}")
+                st.error(f"Error: {result.get('error', 'Unknown error')}")
 
         except Exception as e:
             st.exception(f"Request failed: {e}")
