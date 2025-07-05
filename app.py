@@ -1,4 +1,7 @@
 import uuid
+import threading
+import webbrowser
+import subprocess
 from flask import Flask, request, jsonify
 from github_username import extract_company_github_username
 from git_org_data import get_org_public_members
@@ -60,6 +63,14 @@ def upload_file():
 
     return jsonify({"error": "Only PDF files are allowed"}), 400
 
+def run_flask():
+    app.run(debug=False, use_reloader=False)
+
+def run_streamlit():
+    subprocess.Popen(["streamlit", "run", "ui.py"])
+    webbrowser.open("http://localhost:8501")
+
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    threading.Thread(target=run_flask).start()
+    run_streamlit()
